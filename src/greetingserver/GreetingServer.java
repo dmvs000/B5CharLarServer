@@ -7,16 +7,16 @@ import java.util.*;
 
 public class GreetingServer
 {
-   ReadXMLFile rxf;
+   
    private ServerSocket serverSocket;
    public GreetingServer(int port) throws IOException
    {
 	  try
          {
 		 serverSocket = new ServerSocket(port);
-		 System.out.println("No Listening Time Out Has Beend Specified. Press Ctrl+C to exit the server.");
-     System.out.println("");
-         System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
+		 System.out.println("No Listening Time Out Has Beend Specified.");
+                 System.out.println(" Press Ctrl+C to exit the server.");
+                 System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
 			while(true)
 			{
 				//Waiting for the client to connect
@@ -64,6 +64,7 @@ public class GreetingServer
         {
                 boolean stopRequested;
                 JAXBUnmarshall jaxbun = new JAXBUnmarshall();
+                MySQLAccessUserAuth userauth=new MySQLAccessUserAuth();
                 
 			//Main executive function of this thread.
             try {
@@ -78,8 +79,34 @@ public class GreetingServer
                         new DataInputStream(inFromClient);
 	       String clientsays=in.readUTF();
                 System.out.println(clientsays);
-                System.out.println("UnMarshalling");
-                jaxbun.UnMarshall(clientsays);
+                switch(clientsays)
+                {
+                    case "authenticate":
+                            AuthenticateClient ac=new AuthenticateClient();
+                            System.out.println("Requesting Client for Credentials..");
+                            out.writeUTF("Credentials - 063");
+                            SessionIdentifierGenerator sig=new SessionIdentifierGenerator();
+                            String Id=sig.nextSessionId();
+                            out.writeUTF(Id);
+                            clientsays=in.readUTF();
+                            System.out.println("client credentials");
+                            System.out.println(clientsays);
+                            System.out.println("Authenticating user");
+                            JAXBUserAuthUnmarshall juau=new JAXBUserAuthUnmarshall();
+                            juau.UnMarshall(clientsays,Id);
+                            break;
+                    case "presence":
+                            break;
+                    case "message":
+                            break;
+                    case "requestRoster":
+                            break;
+                    case "LogOff":
+                            break;
+                }
+                //System.out.println("UnMarshalling");
+                //jaxbun.UnMarshall(clientsays);
+                //userauth.ConnectCheck("abc","abc");
         /*if(clientsays.equals("<stream>"))
         {
           System.out.println("Received Stream. The Client is trying to authenticate.");
