@@ -15,7 +15,11 @@ import java.util.*;
 public class HashMapClients {
 
     // Create a hash map
-      HashMap hm = new HashMap();
+    public HashMap hm=new HashMap();;
+    public void HashMapClients()
+    {
+      hm = new HashMap();
+    }
    public void MapTheClient(String username, Socket socket) {
    
       

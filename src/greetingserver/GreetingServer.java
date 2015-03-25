@@ -10,6 +10,7 @@ public class GreetingServer
    
    private ServerSocket serverSocket;
    private String username;
+   public HashMapClients hmc=new HashMapClients();
    private ArrayList<ClientSocketConnections> connections=new ArrayList<ClientSocketConnections>();
    public GreetingServer(int port) throws IOException
    {
@@ -72,6 +73,7 @@ public class GreetingServer
 			//Main executive function of this thread.
             try {
               stopRequested=false;
+              
               OutputStream outToClient = threadSocket.getOutputStream();
               DataOutputStream out = new DataOutputStream(outToClient);
               InputStream inFromClient = threadSocket.getInputStream();
@@ -109,7 +111,6 @@ public class GreetingServer
                                 //On Successful Authentication. Storing the sockets in ArrayList.
                                 ClientSocketConnections csc=new ClientSocketConnections(username,Id,threadSocket);
                                 connections.add(csc);
-                                HashMapClients hmc=new HashMapClients();
                                 hmc.MapTheClient(username, threadSocket);
                                 hmc.iterate(username);
                             }
