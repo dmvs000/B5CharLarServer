@@ -9,8 +9,11 @@ public class GreetingServer
 {
    
    private ServerSocket serverSocket;
+   private String username;
+   private ArrayList<ClientSocketConnections> connections=new ArrayList<ClientSocketConnections>();
    public GreetingServer(int port) throws IOException
    {
+       
 	  try
          {
 		 serverSocket = new ServerSocket(port);
@@ -82,6 +85,7 @@ public class GreetingServer
                 switch(clientsays)
                 {
                     case "authenticate":
+                            boolean validity;
                             AuthenticateClient ac=new AuthenticateClient();
                             System.out.println("Requesting Client for Credentials..");
                             out.writeUTF("Credentials - 063");
@@ -93,11 +97,37 @@ public class GreetingServer
                             System.out.println(clientsays);
                             System.out.println("Authenticating user");
                             JAXBUserAuthUnmarshall juau=new JAXBUserAuthUnmarshall();
-                            juau.UnMarshall(clientsays,Id);
+                            validity=juau.UnMarshall(clientsays,Id);
+                            if(validity)
+                            {
+                                out.writeUTF("AuthSuccess");
+                                String Ip = threadSocket.getRemoteSocketAddress().toString();
+                                //storing client details for this session
+                                System.out.println(Ip);
+                                juau.SessionDetails(Ip);
+                                username=juau.GetData();
+                                //On Successful Authentication. Storing the sockets in ArrayList.
+                                ClientSocketConnections csc=new ClientSocketConnections(username,Id,threadSocket);
+                                connections.add(csc);
+                                HashMapClients hmc=new HashMapClients();
+                                hmc.MapTheClient(username, threadSocket);
+                                hmc.iterate(username);
+                            }
+                            else
+                            {
+                                out.writeUTF("FA");
+                            }
                             break;
                     case "presence":
+                            
                             break;
                     case "message":
+                            out.writeUTF("MsgSend-Ack");
+                            JAXBUnmarshall jum=new JAXBUnmarshall();
+                            jum.UnMarshall(in.readUTF());
+                            String utosend;
+                            utosend=jum.getTo();
+                            
                             break;
                     case "requestRoster":
                             break;

@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Message {
  
-	String body,lang,to,from;
+	String body,lang,to,from,id;
 	int age;
-	int id;
+	
  
 	public String getBody() {
 		return body;
@@ -43,6 +43,9 @@ public class Message {
         public String getLang() {
 		return lang;
 	}
+        public String getId() {
+		return id;
+	}
  
 	@XmlAttribute
 	public void setTo(String to) {
@@ -55,6 +58,10 @@ public class Message {
         @XmlAttribute
 	public void setLang(String lang) {
 		this.lang = lang;
+	}
+        @XmlAttribute
+	public void setId(String id) {
+		this.id = id;
 	}
  
 }
