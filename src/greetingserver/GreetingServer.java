@@ -122,13 +122,32 @@ public class GreetingServer
                     case "presence":
                             
                             break;
-                    case "message":
+                    case "register":
+                            System.out.println("In Register case");
+                            boolean Valid=false;
+                            out.writeUTF("reg-Ack");
+                            clientsays=in.readUTF();
+                            System.out.println("Parameters Received from Client");
+                            System.out.println(clientsays);
+                            JAXBUserRegisterUnmarshall juru=new JAXBUserRegisterUnmarshall();
+                            if(juru.UnMarshall(clientsays))
+                            {
+                                System.out.println("User Registration Successful");
+                                out.writeUTF("Success");
+                            }
+                            else
+                            {
+                                System.out.println("User Registration Failed");
+                                out.writeUTF("Failed");
+                            }
+                            break;
+                    case "OutMessage":
                             out.writeUTF("MsgSend-Ack");
                             JAXBUnmarshall jum=new JAXBUnmarshall();
                             jum.UnMarshall(in.readUTF());
                             String utosend;
                             utosend=jum.getTo();
-                            
+                            System.out.println(utosend);
                             break;
                     case "requestRoster":
                             break;
