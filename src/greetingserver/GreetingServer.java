@@ -113,6 +113,7 @@ public class GreetingServer
                                 connections.add(csc);
                                 hmc.MapTheClient(username, threadSocket);
                                 hmc.iterate(username);
+                                System.out.println("Auth Success, Beeak Switch");
                             }
                             else
                             {
@@ -142,12 +143,31 @@ public class GreetingServer
                             }
                             break;
                     case "OutMessage":
+                            System.out.println("In OutMessage Case");
                             out.writeUTF("MsgSend-Ack");
                             JAXBUnmarshall jum=new JAXBUnmarshall();
-                            jum.UnMarshall(in.readUTF());
+                            String Msg=in.readUTF();
+                            jum.UnMarshall(Msg);
                             String utosend;
                             utosend=jum.getTo();
-                            System.out.println(utosend);
+                            System.out.println("Message to Be Sent" +utosend);
+                            HashMapClients hmc=new HashMapClients();
+                            Socket tosendsocket=hmc.getSocket(utosend);
+                            OutputStream outMsg = tosendsocket.getOutputStream();
+                            DataOutputStream out1 = new DataOutputStream(outMsg);
+                            out1.writeUTF("ReceiveMsg");
+                            System.out.println("Msg Notification Sent. Waiting for server to respond");
+                            InputStream inFrom = tosendsocket.getInputStream();
+                            DataInputStream in1 = new DataInputStream(inFrom);
+                            if(in1.equals("ReceiveMsg-Ack"))
+                            {
+                                out1.writeUTF(Msg);
+                    
+                                //JAXBUnmarshall ju=new JAXBUnmarshall();
+                                //ju.UnMarshall(in1);
+                            }
+                            //InputStream inFromClient = threadSocket.getInputStream();
+                            
                             break;
                     case "requestRoster":
                             break;

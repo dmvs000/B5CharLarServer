@@ -43,4 +43,12 @@ public class HashMapClients {
       // Deposit 1000 into Zara's account
       return;
    }
+      public Socket getSocket(String username)
+      {
+          Socket sc;
+          sc=(Socket)hm.get(username);
+          System.out.println("Socket for Connecting to" +username+ " : "+sc);
+          return sc;
+          
+      }
 }
