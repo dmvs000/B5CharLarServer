@@ -47,7 +47,7 @@ public class HashMapClients {
       {
           Socket sc;
           sc=(Socket)hm.get(username);
-          System.out.println("Socket for Connecting to" +username+ " : "+sc);
+          System.out.println("Socket for Connecting to " +username+ " : "+sc);
           return sc;
           
       }

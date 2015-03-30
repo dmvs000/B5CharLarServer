@@ -145,29 +145,19 @@ public class GreetingServer
                     case "OutMessage":
                             System.out.println("In OutMessage Case");
                             out.writeUTF("MsgSend-Ack");
+                            System.out.println("Message Acknowledgement Sent");
                             JAXBUnmarshall jum=new JAXBUnmarshall();
                             String Msg=in.readUTF();
+                            System.out.println(Msg);
                             jum.UnMarshall(Msg);
                             String utosend;
                             utosend=jum.getTo();
-                            System.out.println("Message to Be Sent" +utosend);
-                            HashMapClients hmc=new HashMapClients();
+                            System.out.println("Message should be sent to" +utosend);
+                            //HashMapClients hmc=new HashMapClients();
                             Socket tosendsocket=hmc.getSocket(utosend);
-                            OutputStream outMsg = tosendsocket.getOutputStream();
-                            DataOutputStream out1 = new DataOutputStream(outMsg);
-                            out1.writeUTF("ReceiveMsg");
-                            System.out.println("Msg Notification Sent. Waiting for server to respond");
-                            InputStream inFrom = tosendsocket.getInputStream();
-                            DataInputStream in1 = new DataInputStream(inFrom);
-                            if(in1.equals("ReceiveMsg-Ack"))
-                            {
-                                out1.writeUTF(Msg);
-                    
-                                //JAXBUnmarshall ju=new JAXBUnmarshall();
-                                //ju.UnMarshall(in1);
-                            }
-                            //InputStream inFromClient = threadSocket.getInputStream();
-                            
+                            SendOutBoundMessage sobm=new SendOutBoundMessage(tosendsocket,Msg);
+                            new Thread(sobm).start();
+                             //InputStream inFromClient = threadSocket.getInputStream();
                             break;
                     case "requestRoster":
                             break;
