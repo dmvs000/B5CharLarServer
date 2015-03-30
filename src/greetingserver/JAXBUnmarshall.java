@@ -45,4 +45,12 @@ public class JAXBUnmarshall {
         {
                 return To;
         }
+        public String getFrom()
+        {
+            return From;
+        }
+        public String getBody()
+        {
+            return Body;
+        }
 }

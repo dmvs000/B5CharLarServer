@@ -33,10 +33,12 @@ public class SendOutBoundMessage implements Runnable {
         OutputStream outMsg = sc.getOutputStream();
         DataOutputStream out1 = new DataOutputStream(outMsg);
         out1.writeUTF("ReceiveMsg");
-        System.out.println("Msg Notification Sent. Waiting for server to respond");
+        out1.writeUTF(Msg);
+        System.out.println("Msg Notification Sent. Waiting for client to respond");
         InputStream inFrom = sc.getInputStream();
         DataInputStream in1 = new DataInputStream(inFrom);
         ClientSays=in1.readUTF();
+        //out1.writeUTF(Msg);
         if(ClientSays.equals("ReceiveMsg-Ack"))
         {
            out1.writeUTF(Msg);
@@ -52,6 +54,7 @@ public class SendOutBoundMessage implements Runnable {
             System.out.println("Exception at SendOutBoundMessage server");
             System.out.println(e);
         }
+        System.out.println("SendOutBoundMessages Closed");
     }
     
 }

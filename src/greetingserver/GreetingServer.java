@@ -144,11 +144,11 @@ public class GreetingServer
                             break;
                     case "OutMessage":
                             System.out.println("In OutMessage Case");
-                            out.writeUTF("MsgSend-Ack");
+                            ///out.writeUTF("MsgSend-Ack");
                             System.out.println("Message Acknowledgement Sent");
                             JAXBUnmarshall jum=new JAXBUnmarshall();
                             String Msg=in.readUTF();
-                            System.out.println(Msg);
+                            System.out.println("Received Msg "+Msg);
                             jum.UnMarshall(Msg);
                             String utosend;
                             utosend=jum.getTo();
