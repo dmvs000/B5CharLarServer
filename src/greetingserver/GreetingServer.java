@@ -114,6 +114,8 @@ public class GreetingServer
                                 hmc.MapTheClient(username, threadSocket);
                                 hmc.iterate(username);
                                 System.out.println("Auth Success, Beeak Switch");
+                                MySQLAccessChangeStatus macs=new MySQLAccessChangeStatus();
+                                macs.ConnectCheck(username, "online");
                             }
                             else
                             {
@@ -161,11 +163,16 @@ public class GreetingServer
                             break;
                     case "requestRoster":
                             System.out.println("In Request Roster Case");
-                            String username=in.readUTF();
+                            username=in.readUTF();
                             MySQLAccessRequestRoster marr=new MySQLAccessRequestRoster();
                             marr.ConnectCheck(username);
                             break;
                     case "LogOff":
+                            System.out.println("The Username is "+username);
+                            hmc.RemoveNow(username);
+                            hmc.iterate(username);
+                            MySQLAccessChangeStatus macs=new MySQLAccessChangeStatus();
+                            macs.ConnectCheck(username, "offline");
                             break;
                 }
                 //System.out.println("UnMarshalling");

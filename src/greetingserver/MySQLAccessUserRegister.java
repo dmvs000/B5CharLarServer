@@ -25,6 +25,7 @@ public class MySQLAccessUserRegister
 		{
                     boolean flag1=false;
                     boolean flag2=false;
+                    boolean flag3=false;
                         System.out.println("Connecting to Database for Registering User");
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/B5Charlar","root","root");
@@ -49,7 +50,17 @@ public class MySQLAccessUserRegister
                              flag2=true;
                          }
                          System.out.println("Updated the details to userauth table");
-                         if((flag1&&flag2)==true)
+                         PreparedStatement ps3=con.prepareStatement("insert into friendstatus values(?,?,?)");
+                         ps3.setString(1,email);
+                         ps3.setString(2,"default");
+                         ps3.setString(3,"I'm using B5Charlar");
+                         int updateCount2=ps3.executeUpdate();
+                         if(updateCount2>0)
+                         {
+                             flag3=true;
+                         }
+                         System.out.println("Updated the details to the friendstatus");
+                         if((flag1&&flag2&&flag3)==true)
                          {
                              return true;
                          }

@@ -51,4 +51,10 @@ public class HashMapClients {
           return sc;
           
       }
+      public void RemoveNow(String username)
+      {
+          hm.remove(username);
+          System.out.println("Successfully removed");
+          iterate(username);
+      }
 }

@@ -27,12 +27,20 @@ public class MySQLAccessRequestRoster
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/B5Charlar","root","root");
 			 PreparedStatement ps=con.prepareStatement("select * from friends where username=?");
+                         PreparedStatement ps1=con.prepareStatement("select * from friendstatus where username=?");
+                         ps1.setString(1,username);
 			 ps.setString(1,username);
 			 ResultSet rs=ps.executeQuery();
 			 while(rs.next())
 			 {
                                 System.out.println(rs.getString("friendname"));        
 			 }
+                         ResultSet rs1=ps.executeQuery();
+                         while(rs1.next())
+                         {
+                             System.out.println(rs.getString("status"));
+                             System.out.println(rs.getString("presence"));
+                         }
 		}
 		catch(Exception e)
 		{
