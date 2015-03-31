@@ -34,7 +34,7 @@ public class SendOutBoundMessage implements Runnable {
         DataOutputStream out1 = new DataOutputStream(outMsg);
         out1.writeUTF("ReceiveMsg");
         out1.writeUTF(Msg);
-        System.out.println("Msg Notification Sent. Waiting for client to respond");
+        /*System.out.println("Msg Notification Sent. Waiting for client to respond");
         InputStream inFrom = sc.getInputStream();
         DataInputStream in1 = new DataInputStream(inFrom);
         ClientSays=in1.readUTF();
@@ -47,7 +47,7 @@ public class SendOutBoundMessage implements Runnable {
         if(ClientSays.equals("Received"))
         {
             System.out.println("Successfully Sent.");
-        }
+        }*/
         }
         catch(Exception e)
         {

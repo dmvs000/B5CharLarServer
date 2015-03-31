@@ -160,6 +160,10 @@ public class GreetingServer
                              //InputStream inFromClient = threadSocket.getInputStream();
                             break;
                     case "requestRoster":
+                            System.out.println("In Request Roster Case");
+                            String username=in.readUTF();
+                            MySQLAccessRequestRoster marr=new MySQLAccessRequestRoster();
+                            marr.ConnectCheck(username);
                             break;
                     case "LogOff":
                             break;
